@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{/layout.html}">
+<head></head>
+<body>
+<p id="user" th:text="${session.user.email}">person@domain.com</p>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/logout" id="logout" th:text="'Logout ' + ${session.user.name}">Logout Person</a>
+</nav>
+<div layout:fragment="contents"><br>
+    <h2>Settle a claim</h2>
+    <form method="post" action="/settleclaim">
+
+        <label for="email">You want to settle a claim from</label>
+        <input id="email" th:value="${claim.getClaimedBy().getEmail()}" readonly>
+
+        <label for="due_date">that was due on</label>
+        <input id="due_date" th:value="${claim.dueDate}" readonly>
+
+        <label for="description">for</label>
+        <input id="description" th:value="${claim.description}" readonly>
+
+        <label for="claim_amount">You owe</label>
+        <input id="claim_amount" th:value="${#numbers.formatDecimal(claim.amount, 0, 'COMMA', 2, 'POINT')}" readonly>
+
+        <input type="submit" id="settle"  value="Settle">
+    </form>
+
+</div>
+</body>
+
+</html>
