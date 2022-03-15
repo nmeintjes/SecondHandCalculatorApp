@@ -3,7 +3,7 @@ package za.co.wethinkcode.weshare.user;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import za.co.wethinkcode.weshare.app.model.Expense;
-import za.co.wethinkcode.weshare.app.model.Phone;
+import za.co.wethinkcode.weshare.app.model.Item;
 
 import java.time.LocalDate;
 
@@ -67,13 +67,13 @@ public class NettExpensesTest extends AbstractUserTest {
 
     private void setupDataForUser() {
         // Three students
-        Phone student1 = new Phone("student1@wethinkcode.co.za");
+        Item student1 = new Item("student1@wethinkcode.co.za");
         DataRepository.getInstance().addPerson(student1);
 
-        Phone student2 = new Phone("student2@wethinkcode.co.za");
+        Item student2 = new Item("student2@wethinkcode.co.za");
         DataRepository.getInstance().addPerson(student2);
 
-        Phone student3 = new Phone("student3@wethinkcode.co.za");
+        Item student3 = new Item("student3@wethinkcode.co.za");
         DataRepository.getInstance().addPerson(student2);
 
         // student 1 has an expense and claims from student 2 and 3

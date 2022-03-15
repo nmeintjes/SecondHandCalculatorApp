@@ -3,7 +3,7 @@ package za.co.wethinkcode.weshare.model;
 import org.junit.jupiter.api.Test;
 import za.co.wethinkcode.weshare.TestData;
 import za.co.wethinkcode.weshare.app.model.Expense;
-import za.co.wethinkcode.weshare.app.model.Phone;
+import za.co.wethinkcode.weshare.app.model.Item;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +18,7 @@ public class Stories {
         DataRepository db = TestData.dbWithNoExpenses();
 
         // Herman is a user
-        Phone herman = db.findPerson("herman@wethinkcode.co.za")
+        Item herman = db.findPerson("herman@wethinkcode.co.za")
                 .orElseThrow(() -> new RuntimeException("herman not found"));
 
         // Herman is recording an expense for lunch
@@ -47,7 +47,7 @@ public class Stories {
         DataRepository db = TestData.dbWithExpensesAndClaimsForAndAgainst();
 
         // Herman is a user
-        Phone herman = db.findPerson("herman@wethinkcode.co.za")
+        Item herman = db.findPerson("herman@wethinkcode.co.za")
                 .orElseThrow(() -> new RuntimeException("herman not found"));
 
         // Herman already has a few expenses
@@ -77,7 +77,7 @@ public class Stories {
         DataRepository db = TestData.dbWithExpensesAndClaimsForAndAgainst();
 
         // Herman is a user
-        Phone herman = db.findPerson("herman@wethinkcode.co.za")
+        Item herman = db.findPerson("herman@wethinkcode.co.za")
                 .orElseThrow(() -> new RuntimeException("herman not found"));
 
         // Herman already has claims against some people
@@ -92,12 +92,12 @@ public class Stories {
         Double previousNettExpenses = db.getNettExpensesFor(herman);
 
         // Herman makes a claim for lunch against Sett
-        Phone sett = db.findPerson("sett@wethinkcode.co.za")
+        Item sett = db.findPerson("sett@wethinkcode.co.za")
                 .orElseThrow(() -> new RuntimeException("sett not found"));
         Claim claimForSett = db.addClaim(fridayLunch.createClaim(sett, 50.00, LocalDate.of(2021, 10, 30)));
 
         // Herman makes a claim for lunch against Mike
-        Phone mike = db.findPerson("mike@wethinkcode.co.za")
+        Item mike = db.findPerson("mike@wethinkcode.co.za")
                 .orElseThrow(() -> new RuntimeException("mike not found"));
         Claim claimForMike = db.addClaim(fridayLunch.createClaim(mike, 150.00, LocalDate.of(2021, 10, 30)));
 
@@ -117,10 +117,10 @@ public class Stories {
         DataRepository db = TestData.dbWithExpensesAndClaimsForAndAgainst();
 
         // Herman is a user
-        Phone herman = db.findPerson("herman@wethinkcode.co.za")
+        Item herman = db.findPerson("herman@wethinkcode.co.za")
                 .orElseThrow(() -> new RuntimeException("herman not found"));
         // and so is Sett
-        Phone sett = db.findPerson("sett@wethinkcode.co.za")
+        Item sett = db.findPerson("sett@wethinkcode.co.za")
                 .orElseThrow(() -> new RuntimeException("sett not found"));
 
         // Sett has an expense and he claims it from Herman

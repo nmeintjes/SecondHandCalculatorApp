@@ -21,7 +21,7 @@ public class Expense extends AbstractTransactionModelBase {
 
     private final LocalDate date;
     private final String description;
-    private final Phone paidBy;
+    private final Item paidBy;
     private final Set<Claim> claims;
 
 
@@ -34,7 +34,7 @@ public class Expense extends AbstractTransactionModelBase {
      * @param description Some descriptive text, possibly null or empty.
      * @param paidBy The Person who paid for the expense item.
      */
-    public Expense(double amount, LocalDate date, String description, Phone paidBy) {
+    public Expense(double amount, LocalDate date, String description, Item paidBy) {
         super( UUID.randomUUID(), amount );
         this.date = date;
         this.description = Strings.isNullOrEmpty(description) ? "Unspecified" : description;
@@ -44,7 +44,7 @@ public class Expense extends AbstractTransactionModelBase {
     //</editor-fold>
 
     //<editor-fold desc="Behaviour">
-    public Claim createClaim(Phone claimedFrom, Double amount, LocalDate dueDate ){
+    public Claim createClaim(Item claimedFrom, Double amount, LocalDate dueDate ){
         Double currentTotalClaimed = this.claims.stream().mapToDouble(Claim::getAmount).sum();
         if (currentTotalClaimed + amount > this.getAmount()) {
             throw new RuntimeException("Total claims exceeds the amount of the expense");
@@ -73,7 +73,7 @@ public class Expense extends AbstractTransactionModelBase {
         return description;
     }
 
-    public Phone getPaidBy() {
+    public Item getPaidBy() {
         return paidBy;
     }
 

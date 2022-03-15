@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{/layout.html}">
+<head></head>
+<body>
+<p id="user" th:text="${session.user.email}">person@domain.com</p>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/logout" id="logout" th:text="'Logout ' + ${session.user.name}">Logout Person</a>
+</nav>
+<div layout:fragment="contents"><br>
+    <h2>Enter the details of your phone</h2>
+    <form method="post" action="/expense" enctype="application/x-www-form-urlencoded">
+
+        <h1>Capture an expense</h1>
+
+        <label for="description">What did you spend your money on?</label>
+        <input name="description" id="description" type="text" >
+
+        <label for="amount">Brand new price</label>
+        <input name="amount" id="amount" type="number">
+
+        <label for="age">
+            How many years old is the phone?
+            <input type="number" name="age" id="age">
+        </label>
+
+
+        <label for="amount">Is the package sealed</label>
+        <input type="radio" id="html" name="fav_language" value="Yes">
+        <label for="html">Yes</label><br>
+        <input type="radio" id="No" name="fav_language" value="No">
+        <label for="No">No</label><br>
+
+        <label for="amount">How much did you spend?</label>
+        <input name="amount" id="amount" type="number">
+
+        <input id="submit" type="submit" value="Submit"/><br>
+
+        <a href="/home">Cancel</a>
+
+    </form>
+
+</div>
+</body>
+
+</html>

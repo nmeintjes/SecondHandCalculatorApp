@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
+        layout:decorate="~{/layout.html}">
+<head>
+</head>
+<body>
+<div layout:fragment="contents">
+    <h2 text="th:${session.user.email}"></h2>
+
+<h2><strong>Item added to your list. Find this on the home page.</strong></h2>
+    <li><a href="home.html">Home</a></li>
+
+
+</div>
+
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 package za.co.wethinkcode.weshare.login;
 
 import io.javalin.http.Context;
-import za.co.wethinkcode.weshare.app.model.Phone;
+import za.co.wethinkcode.weshare.app.model.Item;
 import za.co.wethinkcode.weshare.add.AddPhoneToDatabaseController;
 
 public class LoginController {
@@ -16,7 +16,7 @@ public class LoginController {
             return;
         }
 
-        final Phone person = DataRepository.getInstance().addPerson(new Phone(username));
+        final Item person = DataRepository.getInstance().addPerson(new Item(username));
         context.sessionAttribute("user", person);
 
         context.redirect(AddPhoneToDatabaseController.PATH);

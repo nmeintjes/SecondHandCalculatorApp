@@ -2,14 +2,14 @@ package za.co.wethinkcode.weshare.app.db.memory;
 
 import com.google.common.collect.ImmutableList;
 import za.co.wethinkcode.weshare.app.model.Expense;
-import za.co.wethinkcode.weshare.app.model.Phone;
+import za.co.wethinkcode.weshare.app.model.Item;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class MemoryDb implements DataRepository {
-    private final Set<Phone> people = new HashSet<>();
+    private final Set<Item> people = new HashSet<>();
     private final Set<Expense> expenses = new HashSet<>();
     private final Set<Claim> claims = new HashSet<>();
     private final Set<Settlement> settlements = new HashSet<>();
@@ -26,7 +26,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<Phone> allPersons() {
+    public ImmutableList<Item> allPersons() {
         return ImmutableList.copyOf(people);
     }
 
@@ -34,7 +34,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Phone> findPerson(String email) {
+    public Optional<Item> findPerson(String email) {
         return people.stream()
                 .filter(Person -> Person.getEmail().equalsIgnoreCase(email))
                 .findFirst();
@@ -44,8 +44,8 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public Phone addPerson(Phone person) {
-        Optional<Phone> alreadyExists = findPerson(person.getEmail());
+    public Item addPerson(Item person) {
+        Optional<Item> alreadyExists = findPerson(person.getEmail());
         if (alreadyExists.isPresent()) {
             return alreadyExists.get();
         }
@@ -58,7 +58,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public void removePerson(Phone person) {
+    public void removePerson(Item person) {
         people.remove(person);
     }
 
@@ -66,8 +66,8 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public void updatePerson(Phone updatedPerson) {
-        Optional<Phone> PersonOpt = people.stream().filter(Person -> Person.getEmail().equalsIgnoreCase(updatedPerson.getEmail())).findFirst();
+    public void updatePerson(Item updatedPerson) {
+        Optional<Item> PersonOpt = people.stream().filter(Person -> Person.getEmail().equalsIgnoreCase(updatedPerson.getEmail())).findFirst();
         if (PersonOpt.isPresent()) {
             people.remove(PersonOpt.get());
             people.add(updatedPerson);
@@ -81,7 +81,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<Expense> getExpenses(Phone belongsTo) {
+    public ImmutableList<Expense> getExpenses(Item belongsTo) {
         return expenses.stream()
                 .filter(expense -> expense.getPaidBy().equals(belongsTo))
                 .sorted(Comparator.comparing(Expense::getDate))
@@ -131,7 +131,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<Expense> findExpensesPaidBy(Phone person) {
+    public ImmutableList<Expense> findExpensesPaidBy(Item person) {
         return expenses.stream()
                 .filter(expense -> expense.getPaidBy().getEmail().equalsIgnoreCase(person.getEmail()))
                 .sorted(Comparator.comparing(Expense::getDate))
@@ -142,7 +142,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public double getTotalExpensesFor(Phone person) {
+    public double getTotalExpensesFor(Item person) {
         return findExpensesPaidBy(person).stream().mapToDouble(Expense::getNettAmount).sum();
     }
 
@@ -150,7 +150,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public double getNettExpensesFor(Phone person) {
+    public double getNettExpensesFor(Item person) {
         return getTotalExpensesFor(person)
                 - getTotalUnsettledClaimsClaimedBy(person)
                 + getTotalUnsettledClaimsClaimedFrom(person);
@@ -171,7 +171,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<Claim> getClaimsBy(Phone claimedBy, boolean onlyUnsettled) {
+    public ImmutableList<Claim> getClaimsBy(Item claimedBy, boolean onlyUnsettled) {
         return claims.stream().filter(claim -> claim.getClaimedBy().equals(claimedBy)
                         && (!onlyUnsettled || !claim.isSettled()))
                 .sorted(Comparator.comparing(Claim::getDueDate))
@@ -221,7 +221,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public List<Claim> findUnsettledClaimsClaimedBy(Phone person) {
+    public List<Claim> findUnsettledClaimsClaimedBy(Item person) {
         return claims.stream().filter(Claim ->
                         Claim.getClaimedBy().getEmail().equalsIgnoreCase(person.getEmail()) &&
                                 !Claim.isSettled())
@@ -232,7 +232,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public double getTotalUnsettledClaimsClaimedBy(Phone person) {
+    public double getTotalUnsettledClaimsClaimedBy(Item person) {
         return findUnsettledClaimsClaimedBy(person).stream().mapToDouble(Claim::getAmount).sum();
     }
 
@@ -240,7 +240,7 @@ public class MemoryDb implements DataRepository {
      * {@inheritDoc}
      */
     @Override
-    public double getTotalUnsettledClaimsClaimedFrom(Phone person) {
+    public double getTotalUnsettledClaimsClaimedFrom(Item person) {
         return findUnsettledClaimsClaimedFrom(person).stream().mapToDouble(Claim::getAmount).sum();
     }
 
@@ -250,7 +250,7 @@ public class MemoryDb implements DataRepository {
      * @return
      */
     @Override
-    public ImmutableList<Claim> getClaimsFrom(Phone claimedFrom, boolean onlyUnsettled) {
+    public ImmutableList<Claim> getClaimsFrom(Item claimedFrom, boolean onlyUnsettled) {
         return claims.stream()
                 .filter(claim -> claim.getClaimedFrom().equals(claimedFrom) && (!onlyUnsettled || !claim.isSettled()))
                 .sorted(Comparator.comparing(Claim::getDueDate))
@@ -263,7 +263,7 @@ public class MemoryDb implements DataRepository {
      * @return
      */
     @Override
-    public ImmutableList<Claim> findUnsettledClaimsClaimedFrom(Phone person) {
+    public ImmutableList<Claim> findUnsettledClaimsClaimedFrom(Item person) {
         return getClaimsFrom(person, true);
     }
     //</editor-fold>
@@ -315,9 +315,9 @@ public class MemoryDb implements DataRepository {
 
     //<editor-fold desc="Test Data">
     private void setupTestData() {
-        Phone herman = addPerson(new Phone("herman@wethinkcode.co.za"));
-        Phone mike = addPerson(new Phone("mike@wethinkcode.co.za"));
-        addPerson(new Phone("sett@wethinkcode.co.za"));
+        Item herman = addPerson(new Item("herman@wethinkcode.co.za"));
+        Item mike = addPerson(new Item("mike@wethinkcode.co.za"));
+        addPerson(new Item("sett@wethinkcode.co.za"));
 
         /// herman's expenses
         addExpense(new Expense(100.00, LocalDate.of(2021, 10, 12), "Airtime", herman));

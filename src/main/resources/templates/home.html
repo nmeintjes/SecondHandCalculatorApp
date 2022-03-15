@@ -8,6 +8,7 @@
 <div layout:fragment="contents" class="container white">
 
     <!--    Insert your code inside here.-->
+    <h1>Second Hand Calculator App</h1>
     <section>
         <!-- My Expenses -->
         <div class="expenses">
@@ -18,118 +19,45 @@
         <div th:if="${#lists.isEmpty(userExpenses)}">
             <p id="no_expenses">You don't have any expenses!</p>
         </div>
-        <div th:if="${not #lists.isEmpty(userExpenses)}">
-            <!--            <p th:text="${userExpenses}"></p>-->
-            <table id="expenses" style="width: 100%;">
-                <thead>
-                <tr style="text-align: left;">
-                    <th>When</th>
-                    <th>What</th>
-                    <th>How much</th>
-                </tr>
-                </thead>
-                <!-- Auto Generated Tables from Data -->
-                <tbody>
-                <tr th:each="expenses : ${userExpenses}">
-                    <td th:id="${#ids.seq('date_')}" th:text="${expenses.getDate()}"></td>
-                    <td>
-                        <a th:id="${#ids.seq('claim_expense_')}" th:text="${expenses.description}"
-                           th:href="@{'/claimexpense?expenseId=' + ${expenses.getId()}}"></a>
-                    </td>
-                    <td style="float: right;" th:id="${#ids.seq('amount_')}"><span th:text="${#numbers.formatDecimal(expenses.getNettAmount(), 0, 'COMMA', 2, 'POINT')}">number</span></td>
-                </tr>
-                </tbody>
-            </table>
 
-            <!-- amount to change in future -->
-            <p id="expenses_total" style="float: right;font-weight: bold;">
-                <span th:text="${#numbers.formatDecimal(totalExpense, 0, 'COMMA', 2, 'POINT')}">number</span>
-            </p>
-            <div style="clear: both;"></div>
-        </div>
     </section>
 
-    <section>
-        <h2>People that owe me</h2>
-        <div th:if="${#lists.isEmpty(userClaimsBy)}">
-            <p id="nobody_owes">Nobody owes you any money!</p>
-        </div>
-        <div th:if="${not #lists.isEmpty(userClaimsBy)}">
-            <table id="they_owe_me" style="width: 100%;">
-                <thead>
-                <tr style="text-align: left;">
-                    <th>Who</th>
-                    <th>What</th>
-                    <th>Due</th>
-                    <th>How much</th>
-                </tr>
-                </thead>
-                <!-- Auto Generated Tables from Data -->
-                <tbody>
-                <tr th:each="claimsby : ${userClaimsBy}">
-                    <td th:text="${claimsby.claimedFrom.getName}"></td>
-                    <td th:text="${claimsby.description}"></td>
-                    <td th:text="${claimsby.dueDate}"></td>
-                    <td><span th:text="${#numbers.formatDecimal(claimsby.amount, 0, 'COMMA', 2, 'POINT')}">number</span></td>
-                </tr>
-                </tbody>
-            </table>
 
-            <!-- amount to change in future -->
-            <p id="they_owe_me_total" style="float: right;font-weight: bold;" >
-                <span th:text="${#numbers.formatDecimal(totalClaimBy, 0, 'COMMA', 2, 'POINT')}">number</span>
-            </p>
-            <div style="clear: both;"></div>
-        </div>
-    </section>
-
-    <section>
-        <h2>People that I owe</h2>
+    <aside>
+        <h2>My Items</h2>
         <!--        <p th:text="${userClaimsFrom}"></p>-->
-        <div th:if="${#lists.isEmpty(userClaimsFrom)}">
-            <p id="owe_nobody">You don't owe anyone!</p>
+        <div th:if="${#lists.isEmpty(userAddedItems)}">
+            <p id="owe_nobody">You have no items!</p>
         </div>
-        <div th:if="${not #lists.isEmpty(userClaimsFrom)}">
+        <div th:if="${not #lists.isEmpty(userAddedItems)}">
             <!--            <p th:text="${userClaimsFrom}"></p>-->
             <table id="i_owe_them" style="width: 100%;">
                 <thead>
                 <tr style="text-align: left;">
-                    <th>Who</th>
-                    <th>What</th>
-                    <th>Due</th>
-                    <th>How much</th>
+
+                    <th>Model</th>
+                    <th>Added</th>
                 </tr>
                 </thead>
                 <!--       Auto Generated Tables from Data     -->
                 <tbody>
                 <tr th:each="claimsfrom : ${userClaimsFrom}">
-                    <td th:text="${claimsfrom.claimedBy.getName}"></td>
+                    <a><td th:text="${claimsfrom.claimedBy.getName}"></td></a>
                     <td>
                         <!--                        #ids.seq('date_')-->
                         <!--                    <td th:id="${#ids.seq('date_')}" th:text="${expenses.date}"></td>-->
-                        <a th:id="${#ids.seq('settle_')}"th:text="${claimsfrom.description}" th:href="@{'/settleclaim?claimId=' + ${claimsfrom.getId()}}"></a>
+                        <a>th:text="${claimsfrom.description}"}></a>
                     </td>
-                    <td th:text="${claimsfrom.dueDate}"></td>
-                    <td><span th:text="${#numbers.formatDecimal(claimsfrom.amount, 0, 'COMMA', 2, 'POINT')}">number</span></td>
+
                 </tr>
                 </tbody>
             </table>
 
-            <!-- amount to change in future -->
-            <p id="i_owe_them_total" style="float: right;font-weight: bold;" >
-                <span th:text="${#numbers.formatDecimal(totalClaimFrom, 0, 'COMMA', 2, 'POINT')}">number</span>
-            </p>
             <div style="clear: both;"></div>
         </div>
-    </section>
+    </aside>
 
-    <section>
-        <!-- sum of all previous amounts -->
-        <p id="nett_expenses" style="float: right; font-size: 24px; font-weight: bold;"><strong>
-            <span th:text="${#numbers.formatDecimal(nettExpense, 0, 'COMMA', 2, 'POINT')}">number</span></strong>
-        </p>
-        <div style="clear: both;"></div>
-    </section>
+
 </div>
 </body>
 

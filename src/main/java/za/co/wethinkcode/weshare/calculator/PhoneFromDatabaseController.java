@@ -1,11 +1,9 @@
 package za.co.wethinkcode.weshare.calculator;
 
 import io.javalin.http.Context;
-import za.co.wethinkcode.server.CRUD;
-import za.co.wethinkcode.weshare.app.model.Expense;
-import za.co.wethinkcode.weshare.app.model.Phone;
+import za.co.wethinkcode.weshare.app.db.CRUD;
+import za.co.wethinkcode.weshare.app.model.Item;
 
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -18,17 +16,18 @@ public class PhoneFromDatabaseController {
     public static void renderPhonePage(Context context){
 
         CRUD crud = new CRUD();
-        Phone phone = crud.retrievePhone();
+        Item phone = crud.retrievePhone();
 
 
 
+        double value = phone.getMarketValue();
 
 
         Map<String, Object> viewModel = Map.of(
 
-
+            "value",value
         );
 
-        context.render("claimexpense.html", viewModel);
+        context.render("calculatedresult.html", viewModel);
     }
 }

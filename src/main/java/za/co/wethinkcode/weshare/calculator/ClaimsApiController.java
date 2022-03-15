@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import za.co.wethinkcode.weshare.app.model.Expense;
-import za.co.wethinkcode.weshare.app.model.Phone;
+import za.co.wethinkcode.weshare.app.model.Item;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -53,7 +53,7 @@ public class ClaimsApiController {
 
 
 
-        Phone debtor = new Phone(email);
+        Item debtor = new Item(email);
 
 
         System.out.println("id string query param in api claims: " + id_string);
