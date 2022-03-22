@@ -1,5 +1,7 @@
 package za.co.wethinkcode.weshare.app.model;
 
+import java.util.UUID;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -17,6 +19,7 @@ public class Item {
     private boolean crackedScreen;
     private boolean batteryDead;
     private int gbStorage;
+    private UUID itemId;
 
 
     public Item() {
@@ -30,6 +33,7 @@ public class Item {
         this.batteryDead = false;
         this.gbStorage = 0;
         calculateMarketValue();
+        itemId = UUID.randomUUID();
     }
 
     public Item(int yearsOld, Model model, boolean scratched,
@@ -44,7 +48,24 @@ public class Item {
         this.batteryDead = batteryDead;
         this.gbStorage = gbStorage;
         calculateMarketValue();
+        itemId = UUID.randomUUID();
     }
+
+    public Item(int yearsOld, Model model, boolean scratched, boolean charger, boolean sealed,
+                boolean crackedScreen, boolean batteryDead, int gbStorage, String itemId) {
+
+        this.yearsOld = yearsOld;
+        this.model = model;
+        this.scratched = scratched;
+        this.charger = charger;
+        this.sealed = sealed;
+        this.crackedScreen = crackedScreen;
+        this.batteryDead = batteryDead;
+        this.gbStorage = gbStorage;
+        calculateMarketValue();
+        this.itemId = UUID.fromString(itemId);
+    }
+
     @Override
     public String toString(){
         return "Phone{" +
@@ -77,7 +98,7 @@ public class Item {
         return scratched;
     }
 
-    public boolean HasCharger() {
+    public boolean hasCharger() {
         return charger;
     }
 
@@ -108,6 +129,8 @@ public class Item {
     }
 
     public double getValue() {return value;}
+
+    public UUID getItemId() {return itemId;}
 
 
 }

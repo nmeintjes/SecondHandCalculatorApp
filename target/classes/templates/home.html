@@ -13,12 +13,11 @@
         <!-- My Expenses -->
         <div class="expenses">
             <h2>My Expenses</h2>
-            <a id="add_item" href="/phoneform.html">Add a new item!</a>
-
+            <a id="add_expense" href="/newexpense">Add a new expense</a>
         </div>
 
         <div th:if="${#lists.isEmpty(userExpenses)}">
-            <p id="no_expenses">You don't have any items!</p>
+            <p id="no_expenses">You don't have any expenses!</p>
         </div>
 
     </section>
@@ -43,14 +42,12 @@
                 <!--       Auto Generated Tables from Data     -->
                 <tbody>
                 <tr th:each="claimsfrom : ${userClaimsFrom}">
-                    <a><td th:text="${claimsfrom.toString}"></td></a>
+                    <a><td th:text="${claimsfrom.claimedBy.getName}"></td></a>
                     <td>
                         <!--                        #ids.seq('date_')-->
                         <!--                    <td th:id="${#ids.seq('date_')}" th:text="${expenses.date}"></td>-->
                         <a>th:text="${claimsfrom.description}"}></a>
                     </td>
-
-                    <button type="submit" th:formaction="@{'/deleteitem?itemId=' + ${item.getId()}}">DELETE</button>
 
                 </tr>
                 </tbody>

@@ -7,12 +7,9 @@ import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.jetbrains.annotations.NotNull;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import za.co.wethinkcode.weshare.app.DefaultAccessManager;
+import za.co.wethinkcode.weshare.add.AddItemToDatabaseController;
 import za.co.wethinkcode.weshare.app.Sessions;
-import za.co.wethinkcode.weshare.calculator.PhoneFromDatabaseController;
-import za.co.wethinkcode.weshare.calculator.ClaimsApiController;
-import za.co.wethinkcode.weshare.login.LoginController;
-import za.co.wethinkcode.weshare.add.AddPhoneToDatabaseController;
+
 
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -58,35 +55,31 @@ public class SecondHandAppServer {
 
     private static void setupRoutes(Javalin server) {
         server.routes(() -> {
-            loginAndLogoutRoutes();
+
             homePageRoute();
-            claimRoutes();
+            addRoutes();
         });
     }
 
 
-    private static void claimRoutes() {
-        get(PhoneFromDatabaseController.PHONE_PATH, PhoneFromDatabaseController::renderPhonePage);
-        post(ClaimsApiController.CLAIMS_PATH, ClaimsApiController::create);
+    private static void addRoutes() {
+        post(AddItemToDatabaseController.PATH, AddItemToDatabaseController::renderCalculatedResultPage);
+
     }
 
 
 
     private static void homePageRoute() {
-        path(AddPhoneToDatabaseController.PATH, () -> get(AddPhoneToDatabaseController::renderHomePage));
+
     }
 
-    private static void loginAndLogoutRoutes() {
-        post(LoginController.LOGIN_PATH, LoginController::handleLogin);
-        get(LoginController.LOGOUT_PATH, LoginController::handleLogout);
-    }
 
     @NotNull
     private static Javalin createAndConfigureServer() {
         return Javalin.create(config -> {
             config.addStaticFiles(STATIC_DIR, Location.CLASSPATH);
             config.sessionHandler(Sessions::nopersistSessionHandler);
-            config.accessManager(new DefaultAccessManager());
+
         });
     }
 }
