@@ -5,6 +5,7 @@
         layout:decorate="~{/layout.html}">
 <head></head>
 <body>
+
 <div layout:fragment="contents" class="container white">
 
     <!--    Insert your code inside here.-->
@@ -13,13 +14,11 @@
         <!-- My Expenses -->
         <div class="expenses">
             <h2>My Expenses</h2>
-            <a id="add_item" href="/phoneform.html">Add a new item!</a>
+<!--            <a id="add_item" href="phoneform.html">Add a new item!</a>-->
 
         </div>
 
-        <div th:if="${#lists.isEmpty(userExpenses)}">
-            <p id="no_expenses">You don't have any items!</p>
-        </div>
+
 
     </section>
 
@@ -29,6 +28,7 @@
         <!--        <p th:text="${userClaimsFrom}"></p>-->
         <div th:if="${#lists.isEmpty(userAddedItems)}">
             <p id="owe_nobody">You have no items!</p>
+            <a href="/add/form">add an item</a>
         </div>
         <div th:if="${not #lists.isEmpty(userAddedItems)}">
             <!--            <p th:text="${userClaimsFrom}"></p>-->
@@ -36,18 +36,19 @@
                 <thead>
                 <tr style="text-align: left;">
 
-                    <th>Model</th>
+                    <th>Item</th>
                     <th>Added</th>
                 </tr>
                 </thead>
                 <!--       Auto Generated Tables from Data     -->
                 <tbody>
-                <tr th:each="claimsfrom : ${userClaimsFrom}">
-                    <a><td th:text="${claimsfrom.toString}"></td></a>
+                <tr th:each="itemsfrom : ${userAddedItems}">
+<!--                    <a><td th:text="${claimsfrom.toString}"></td></a>-->
                     <td>
                         <!--                        #ids.seq('date_')-->
                         <!--                    <td th:id="${#ids.seq('date_')}" th:text="${expenses.date}"></td>-->
-                        <a>th:text="${claimsfrom.description}"}></a>
+<!--                        <a>th:text="${claimsfrom.description}"}></a>-->
+                        <a th:text="${item.toString()}"}> ></a>
                     </td>
 
                     <button type="submit" th:formaction="@{'/deleteitem?itemId=' + ${item.getId()}}">DELETE</button>
@@ -55,7 +56,7 @@
                 </tr>
                 </tbody>
             </table>
-
+            <a href="phoneform.html">add an item</a>
             <div style="clear: both;"></div>
         </div>
     </aside>

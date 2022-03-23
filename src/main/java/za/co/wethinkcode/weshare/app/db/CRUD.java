@@ -130,25 +130,29 @@ public class CRUD {
 
                 List<Item> items = null;
 
+                try {
+                    while (results.next()) {
+                        //loop through every column in obstacles column
 
-                while (results.next()) {
-                    //loop through every column in obstacles column
+                        int yearsOld = results.getInt("years");
+                        String brandType = results.getString("brand");
+                        boolean scratched = results.getBoolean("scratched");
+                        boolean charger = results.getBoolean("charger");;
+                        boolean sealed = results.getBoolean("sealed");;
+                        boolean crackedScreen = results.getBoolean("cracked");;
+                        boolean batteryDead = results.getBoolean("batteryDead");;
+                        int gbStorage = results.getInt("gbStorage");
 
-                    int yearsOld = results.getInt("years");
-                    String brandType = results.getString("brand");
-                    boolean scratched = results.getBoolean("scratched");
-                    boolean charger = results.getBoolean("charger");;
-                    boolean sealed = results.getBoolean("sealed");;
-                    boolean crackedScreen = results.getBoolean("cracked");;
-                    boolean batteryDead = results.getBoolean("batteryDead");;
-                    int gbStorage = results.getInt("gbStorage");
-
-                    Model model = new Model(brandType);
-                    Item item = new Item(yearsOld,model,scratched,
-                            charger,sealed,crackedScreen,batteryDead,
-                            gbStorage);
-                    items.add(item);
+                        Model model = new Model(brandType);
+                        Item item = new Item(yearsOld,model,scratched,
+                                charger,sealed,crackedScreen,batteryDead,
+                                gbStorage);
+                        items.add(item);
+                    }
+                } catch (NullPointerException n) {
+                    ;
                 }
+
                 return items;
             }
         }

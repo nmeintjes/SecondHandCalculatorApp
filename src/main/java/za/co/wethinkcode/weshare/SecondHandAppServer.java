@@ -7,9 +7,10 @@ import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.jetbrains.annotations.NotNull;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import za.co.wethinkcode.weshare.add.AddItemRevealForm;
 import za.co.wethinkcode.weshare.add.AddItemToDatabaseController;
 import za.co.wethinkcode.weshare.app.Sessions;
-
+import za.co.wethinkcode.weshare.homepage.RedirectHomePageController;
 
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -64,13 +65,14 @@ public class SecondHandAppServer {
 
     private static void addRoutes() {
         post(AddItemToDatabaseController.PATH, AddItemToDatabaseController::renderCalculatedResultPage);
-
+        get(AddItemRevealForm.FORM_PATH, AddItemRevealForm::renderPhoneFormPage);
     }
 
 
 
     private static void homePageRoute() {
-
+        get(RedirectHomePageController.REDIRECT_PATH, RedirectHomePageController::redirectToHomePage);
+        //path(RedirectHomePageController.REDIRECT_PATH, () -> post(RedirectHomePageController::redirectToHomePage));
     }
 
 
